@@ -9,9 +9,9 @@ var usersRouter = require('./routes/users');
 var cartRouter = require('./routes/cart')
 
 
-const cors = require ('cors');
-
 var app = express();
+const cors = require ('cors');
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -23,6 +23,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 
-app.use(cors())
+
 
 module.exports = app;
