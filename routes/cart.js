@@ -3,7 +3,14 @@ var router = express.Router()
 const Cart = require('../models/cart')
 
 
-
+router.get('/trip' , (req,res) => {
+    Cart.find({})
+    .populate('trip')
+    .then(data => {
+        console.log(data)
+        res.json({result: true,newTrip :data})
+    })
+})
 router.post('/newTrip', (req,res) =>{
     console.log(req.body.id)
     const newTrip = new Cart({
@@ -16,18 +23,16 @@ router.post('/newTrip', (req,res) =>{
         .populate('trip')
         .then(data => {
             console.log(data)
-            res.json({newTrip :data})
+            res.json({result: true,newTrip :data})
         })
         
     }
     )
 })
-
+//
 router.delete('/deleteATrip', (req,res) => {
-    Cart.findOne({_id:req.body.id})
-    .then(data => {
-            console.log(data)
-        })
+    Cart.findByIdAndRemove(req.body.id)
+
     })
 
 router.post('/newBooking', (req,res) =>{
@@ -35,7 +40,7 @@ router.post('/newBooking', (req,res) =>{
     .then(()=> {
         Cart.find({paid:true})
         .then(data => {
-            res.json({trip :data})
+            res.json({result: true,trip :data})
         })
         
     })
@@ -45,7 +50,7 @@ router.get('/booked', (req,res) => {
     Cart.find({paid:true})
     .populate('trip')
     .then(data => {
-        res.json({trip:data})
+        res.json({result: true,trip:data})
     })
 })
 router.delete('/booked', (req,res) => {
